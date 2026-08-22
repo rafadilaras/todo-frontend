@@ -11,7 +11,6 @@ export default function LoginPage() {
           <p className="text-sm text-gray-500 mt-1">Masuk ke akun Anda</p>
         </header>
 
-        {/* Form Komponen */}
         <LoginForm />
 
         <div className="mt-6 border-t pt-4 text-center">
