@@ -23,7 +23,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             </div>
 
             <Link
-                href={`/detail/${todo.id}`}
+                href={`/task/${todo.id}`}
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline shrink-0"
             >
                 Detail →
