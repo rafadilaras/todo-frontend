@@ -1,16 +1,7 @@
 import React from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-
-async function getTodos() {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return [
-    { id: 1, title: 'Belajar React Server Components (RSC)', completed: true },
-    { id: 2, title: 'Memahami Next.js App Router', completed: true },
-    { id: 3, title: 'Membuat Aplikasi Todo List', completed: false },
-    { id: 4, title: 'Eksplorasi Client Components', completed: false },
-  ];
-}
+import { getTodos } from '@/lib/todos';
 
 export default async function TodoPage() {
   const todos = await getTodos();

@@ -1,5 +1,6 @@
 import React from 'react';
-import TodoItem, { Todo } from './TodoItem';
+import TodoItem from './TodoItem';
+import { Todo } from '@/types/todo';
 
 export default function TodoList({ todos }: { todos: Todo[] }) {
     if (todos.length === 0) {
