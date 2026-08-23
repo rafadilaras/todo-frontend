@@ -1,3 +1,4 @@
+import Link from 'next/dist/client/link';
 import React from 'react';
 
 export default function LoginForm() {
@@ -30,12 +31,12 @@ export default function LoginForm() {
       </div>
 
       <div className="pt-2">
-        <a
+        <Link
           href="/"
           className="block text-center w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
         >
           Login
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export default function TaskNotFound({ id }: TaskNotFoundProps) {
           href="/"
           className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition"
         >
-          ← Kembali ke Daftar Tugas
+          Kembali ke Daftar Tugas
         </Link>
       </div>
     </main>
