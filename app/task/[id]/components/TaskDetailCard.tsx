@@ -10,7 +10,6 @@ export default function TaskDetailCard({ todo }: TaskDetailCardProps) {
   return (
     <main className="min-h-screen p-8 bg-gray-100">
       <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-        {/* Header dengan tombol kembali */}
         <header className="mb-6 border-b pb-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-800">Detail Tugas</h1>
           <Link
@@ -21,7 +20,6 @@ export default function TaskDetailCard({ todo }: TaskDetailCardProps) {
           </Link>
         </header>
 
-        {/* Informasi Detail Tugas */}
         <div className="space-y-4">
           <div>
             <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">

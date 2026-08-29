@@ -19,4 +19,3 @@ export default async function TodoDetailPage({ params }: DetailPageProps) {
 
   return <TaskDetailCard todo={todo} />;
 }
-

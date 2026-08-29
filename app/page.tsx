@@ -1,25 +1,25 @@
 import React from 'react';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
+import TodoStateOnlyApp from './components/TodoStateOnlyApp';
 import { getTodos } from '@/lib/todos';
 
 export default async function TodoPage() {
-  const todos = await getTodos();
+  // Mengambil data awal di Server Component
+  const initialTodos = await getTodos();
 
   return (
-    <main className="min-h-screen p-8 bg-gray-100">
-      <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-        <header className="mb-8 border-b pb-4">
-          <h1 className="text-3xl font-bold text-gray-800 text-center">
+    <main className="min-h-screen p-6 md:p-10 bg-gray-100">
+      <div className="max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-md border border-gray-100">
+        <header className="mb-6 border-b pb-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
             Daftar Tugas (Todo List)
           </h1>
+          <p className="text-sm text-gray-500 text-center mt-1">
+            Modul 1: Praktik React Local State (<code className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-700">useState</code>)
+          </p>
         </header>
 
-        {/* Form Komponen */}
-        <TodoForm />
-
-        {/* List Komponen yang membungkus Item */}
-        <TodoList todos={todos} />
+        {/* Halaman Beranda: Menggunakan State Murni (In-Memory) */}
+        <TodoStateOnlyApp initialTodos={initialTodos} />
       </div>
     </main>
   );
