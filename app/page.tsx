@@ -1,10 +1,13 @@
 import React from 'react';
+import { todoService } from '@/services/todo.service';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-import { getTodos } from '@/lib/todos';
 
 export default async function TodoPage() {
-  const todos = await getTodos();
+  // Karena adanya revalidatePath() di actions.ts, 
+  // fungsi ini akan dieksekusi ulang dari awal tiap kali form di-submit,
+  // menarik data terbaru dari service/database.
+  const todos = await todoService.getTodos();
 
   return (
     <main className="min-h-screen p-8 bg-gray-100">
@@ -15,10 +18,10 @@ export default async function TodoPage() {
           </h1>
         </header>
 
-        {/* Form Komponen */}
+        {/* Komponen Form langsung kita letakkan (menggunakan Server Action di dalamnya) */}
         <TodoForm />
 
-        {/* List Komponen yang membungkus Item */}
+        {/* Data yang dirender di sini selalu terbaru berkat revalidasi server */}
         <TodoList todos={todos} />
       </div>
     </main>

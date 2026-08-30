@@ -2,7 +2,11 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import { Todo } from '@/types/todo';
 
-export default function TodoList({ todos }: { todos: Todo[] }) {
+interface TodoListProps {
+    todos: Todo[];
+}
+
+export default function TodoList({ todos }: TodoListProps) {
     if (todos.length === 0) {
         return (
             <div className="text-center p-8 text-gray-500 border-2 border-dashed border-gray-200 rounded-md">
