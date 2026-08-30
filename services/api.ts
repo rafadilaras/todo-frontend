@@ -1,14 +1,3 @@
-/**
- * services/api.ts
- * 
- * Layer 1: Connection & Base HTTP Client.
- * 
- * Tujuan Pembelajaran:
- * 1. Mengisolasi konfigurasi koneksi jaringan (Base URL, Headers, Error Handling) di satu tempat.
- * 2. Menyediakan fungsi wrapper generic `apiClient<T>()` agar pemanggilan API konsisten & reusable.
- */
-
-// Base URL ke endpoint REST API DummyJSON
 export const API_BASE_URL = 'https://dummyjson.com';
 
 export class ApiError extends Error {
@@ -23,11 +12,6 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * Reusable generic fetch client
- * @param endpoint Path endpoint, contoh: '/todos' atau '/todos/1'
- * @param options Konfigurasi standar RequestInit (method, headers, body, dsb)
- */
 export async function apiClient<T>(
   endpoint: string,
   options: RequestInit = {}
@@ -45,7 +29,6 @@ export async function apiClient<T>(
         ...defaultHeaders,
         ...options.headers,
       },
-      // Next.js caching strategy (opsional: revalidate setiap 60 detik atau no-store untuk live)
       next: { revalidate: 60 },
     });
 
@@ -63,7 +46,6 @@ export async function apiClient<T>(
     if (error instanceof ApiError) {
       throw error;
     }
-    // Network error atau parsing error
     throw new Error(
       `Network Error: Tidak dapat terhubung ke server API (${(error as Error).message})`
     );

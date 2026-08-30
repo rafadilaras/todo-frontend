@@ -10,16 +10,12 @@ export const metadata = {
 
 export default async function ApiTodosPage() {
   let initialTasks: Awaited<ReturnType<typeof getTasks>>['tasks'] = [];
-  let totalCount = 0;
-  let fetchError: string | null = null;
-
   try {
     // Memanggil data awal di Server Component melalui business logic helper
     const result = await getTasks({ limit: 15, skip: 0 });
     initialTasks = result.tasks;
-    totalCount = result.total;
   } catch (err) {
-    fetchError = (err as Error).message;
+    console.error('Failed to fetch tasks:', err);
   }
 
   return (
@@ -31,7 +27,7 @@ export default async function ApiTodosPage() {
               Daftar Tugas (Todo List)
             </h1>
           </header>
-          <ApiTodoList initialTasks={initialTasks} totalFromApi={totalCount} />
+          <ApiTodoList initialTasks={initialTasks} />
         </div>
       </div>
     </main>

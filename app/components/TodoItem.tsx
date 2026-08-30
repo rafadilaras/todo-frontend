@@ -16,7 +16,8 @@ type TodoItemProps = {
 export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   return (
     <li
-      className={`p-4 rounded-xl border flex items-center justify-between gap-3 transition-all duration-200 ${todo.completed
+      className={`p-4 rounded-xl border flex items-center justify-between gap-3 
+        transition-all duration-200 ${todo.completed
           ? 'bg-success-10/20 border-success-20'
           : 'bg-white border-gray-100 hover:border-primary-70/40'
         }`}
@@ -28,11 +29,13 @@ export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
           type="checkbox"
           checked={todo.completed}
           onChange={() => onToggle(todo.id)}
-          className="w-5 h-5 rounded text-primary-70 focus:ring-primary-70 cursor-pointer accent-primary-70"
+          className="w-5 h-5 rounded text-primary-70 focus:ring-primary-70 
+          cursor-pointer accent-primary-70"
         />
         <label
           htmlFor={`todo-${todo.id}`}
-          className={`text-base font-medium truncate cursor-pointer transition-all ${todo.completed ? 'line-through text-gray-80' : 'text-dark-70'
+          className={`text-base font-medium truncate cursor-pointer transition-all 
+            ${todo.completed ? 'line-through text-gray-80' : 'text-dark-70'
             }`}
         >
           {todo.title}
@@ -43,7 +46,8 @@ export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
       <div className="flex items-center gap-2 shrink-0">
         <Link
           href={`/task/${todo.id}`}
-          className="text-xs font-semibold px-2.5 py-1.5 rounded-md bg-primary-10 text-primary-90 hover:bg-primary-20 transition-colors"
+          className="text-xs font-semibold px-2.5 py-1.5 rounded-md bg-primary-10 
+          text-primary-90 hover:bg-primary-20 transition-colors"
         >
           Detail →
         </Link>

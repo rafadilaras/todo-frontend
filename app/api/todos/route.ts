@@ -1,14 +1,3 @@
-/**
- * app/api/todos/route.ts
- * 
- * Layer 4: Next.js Route Handler (/api/todos).
- * 
- * Tujuan Pembelajaran:
- * 1. Sebagai endpoint internal untuk memeriksa apakah koneksi ke REST API DummyJSON berhasil atau belum.
- * 2. Mahasiswa bisa menguji langsung endpoint ini di browser atau Postman: http://localhost:3000/api/todos
- * 3. Berfungsi sebagai API Proxy / Backend for Frontend (BFF) di Next.js App Router.
- */
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getTasks } from '@/lib/tasks';
 import { todoService } from '@/services/todoService';
@@ -24,7 +13,6 @@ export async function GET(request: NextRequest) {
   const skip = skipParam ? parseInt(skipParam, 10) : 0;
 
   try {
-    // Memanggil business logic helper di lib/tasks.ts
     const result = await getTasks({ limit, skip });
     const latencyMs = Date.now() - startTime;
 
@@ -42,6 +30,7 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json(responsePayload, { status: 200 });
+    
   } catch (error) {
     const latencyMs = Date.now() - startTime;
     console.error('[API Route /api/todos] Error:', error);
@@ -75,7 +64,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Teruskan ke todoService
     const newTodo = await todoService.createTodo({
       todo: body.todo,
       completed: Boolean(body.completed),

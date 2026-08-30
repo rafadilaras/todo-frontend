@@ -1,10 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import TodoStateOnlyApp from './components/TodoStateOnlyApp';
 import { getTodos } from '@/lib/todos';
 
 export default async function TodoPage() {
-  // Mengambil data awal di Server Component
   const initialTodos = await getTodos();
 
   return (

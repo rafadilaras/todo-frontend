@@ -10,7 +10,7 @@ type TodoStateOnlyAppProps = {
 };
 
 export default function TodoStateOnlyApp({ initialTodos }: TodoStateOnlyAppProps) {
-  // 1. State murni di memori (useState biasa, tanpa localStorage)
+
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
   // Handler Tambah Tugas Baru

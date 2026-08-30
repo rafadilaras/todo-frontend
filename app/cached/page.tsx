@@ -1,12 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 import TodoCachedApp from './components/TodoCachedApp';
 import { getTodos } from '@/lib/todos';
-
-export const metadata = {
-  title: 'Todo List dengan Caching State (localStorage)',
-  description: 'Demonstrasi penerapan Custom Hook useLocalStorage untuk Caching State di Next.js',
-};
 
 export default async function CachedTodoPage() {
   // Mengambil data awal di Server Component

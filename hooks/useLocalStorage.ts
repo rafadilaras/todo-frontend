@@ -2,10 +2,6 @@
 
 import { useSyncExternalStore, useCallback } from 'react';
 
-/**
- * Event listener helper untuk menyinkronkan perubahan localStorage
- * antar komponen di tab yang sama dan antar tab browser.
- */
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
   window.addEventListener('local-storage-update', callback);
@@ -15,14 +11,6 @@ function subscribe(callback: () => void) {
   };
 }
 
-/**
- * Custom Hook useLocalStorage menggunakan useSyncExternalStore (standar modern React 18 & 19).
- * Menjamin integritas SSR di Next.js dan menghindari hydration mismatch.
- *
- * @param key Kunci penyimpanan di localStorage
- * @param initialValue Nilai awal jika cache belum ada
- * @returns [storedValue, setValue]
- */
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const getSnapshot = (): string => {
     try {

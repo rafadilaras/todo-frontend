@@ -1,9 +1,3 @@
-/**
- * app/api/todos/[id]/route.ts
- * 
- * Route Handler untuk detail Todo berdasarkan ID dari DummyJSON.
- */
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getTaskById } from '@/lib/tasks';
 import { ApiResponse } from '@/types/api-todo';
@@ -37,6 +31,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     };
 
     return NextResponse.json(successPayload, { status: 200 });
+    
   } catch (error) {
     return NextResponse.json(
       {
