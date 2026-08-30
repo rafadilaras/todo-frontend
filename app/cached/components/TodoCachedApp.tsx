@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import TodoForm from '@/app/components/TodoForm';
-import TodoList from '@/app/components/TodoList';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Todo } from '@/types/todo';
 
@@ -95,7 +95,7 @@ export default function TodoCachedApp({ initialTodos }: TodoCachedAppProps) {
         </div>
       </div>
 
-      {/* Form Input Tambah Tugas */}
+      {/* Form Input Tambah Tugas (Internal dari cached/components) */}
       <TodoForm onAddTodo={handleAddTodo} />
 
       {/* Indikator Status Caching & Reset */}
@@ -113,7 +113,7 @@ export default function TodoCachedApp({ initialTodos }: TodoCachedAppProps) {
         </button>
       </div>
 
-      {/* List Tugas */}
+      {/* List Tugas (Internal dari cached/components) */}
       <TodoList
         todos={todos}
         onToggleTodo={handleToggleTodo}
