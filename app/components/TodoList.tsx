@@ -24,7 +24,7 @@ export default function TodoList({ todos, onToggleTodo, onDeleteTodo }: TodoList
     <div className="mt-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-800">Daftar Tugas</h2>
-        <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full font-medium">
+        <span className="text-xs bg-gray-70 text-gray-600 px-2.5 py-1 rounded-full font-medium">
           {todos.length} item
         </span>
       </div>

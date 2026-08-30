@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { Button } from '@/app/components/ui/button';
 import { Todo } from '@/types/todo';
 
 export type { Todo };
@@ -15,11 +16,10 @@ type TodoItemProps = {
 export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   return (
     <li
-      className={`p-4 rounded-lg border flex items-center justify-between gap-3 transition-all duration-200 ${
-        todo.completed
-          ? 'bg-emerald-50/60 border-emerald-200 shadow-sm'
-          : 'bg-white border-gray-200 hover:border-gray-300 shadow-sm'
-      }`}
+      className={`p-4 rounded-xl border flex items-center justify-between gap-3 transition-all duration-200 ${todo.completed
+          ? 'bg-success-10/20 border-success-20'
+          : 'bg-white border-gray-100 hover:border-primary-70/40'
+        }`}
     >
       {/* Bagian Checklist & Judul Tugas */}
       <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -28,13 +28,12 @@ export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
           type="checkbox"
           checked={todo.completed}
           onChange={() => onToggle(todo.id)}
-          className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
+          className="w-5 h-5 rounded text-primary-70 focus:ring-primary-70 cursor-pointer accent-primary-70"
         />
         <label
           htmlFor={`todo-${todo.id}`}
-          className={`text-base font-medium truncate cursor-pointer transition-all ${
-            todo.completed ? 'line-through text-gray-400' : 'text-gray-800'
-          }`}
+          className={`text-base font-medium truncate cursor-pointer transition-all ${todo.completed ? 'line-through text-gray-80' : 'text-dark-70'
+            }`}
         >
           {todo.title}
         </label>
@@ -44,20 +43,22 @@ export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
       <div className="flex items-center gap-2 shrink-0">
         <Link
           href={`/task/${todo.id}`}
-          className="text-xs font-semibold px-2.5 py-1.5 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-colors"
+          className="text-xs font-semibold px-2.5 py-1.5 rounded-md bg-primary-10 text-primary-90 hover:bg-primary-20 transition-colors"
         >
           Detail →
         </Link>
 
         {onDelete && (
-          <button
+          <Button
             type="button"
             onClick={() => onDelete(todo.id)}
             title="Hapus tugas"
-            className="text-xs font-semibold px-2.5 py-1.5 rounded-md bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 transition-colors"
+            variant="destructive"
+            size="xs"
+            className="text-xs font-medium"
           >
             Hapus
-          </button>
+          </Button>
         )}
       </div>
     </li>

@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Input } from '@/app/components/ui/input';
+import { Button } from '@/app/components/ui/button';
 
 type TodoFormProps = {
   onAddTodo: (title: string) => void;
@@ -25,22 +27,24 @@ export default function TodoForm({ onAddTodo }: TodoFormProps) {
   };
 
   return (
-    <div className="mb-6 bg-gray-50 p-4 rounded-md border border-gray-100">
+    <div className="mb-6 bg-white p-4 rounded-xl border border-gray-70">
       <form onSubmit={handleSubmit} className="flex gap-2">
-        <input
+        <Input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Tambahkan tugas baru..."
-          className="flex-1 text-gray-800 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+          className="flex-1 bg-white"
+          variantSize="md"
         />
-        <button
+        <Button
           type="submit"
           disabled={!title.trim()}
-          className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          variant="default"
+          size="md"
         >
           Tambah
-        </button>
+        </Button>
       </form>
     </div>
   );
