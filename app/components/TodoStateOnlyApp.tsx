@@ -7,11 +7,11 @@ import { Todo } from '@/types/todo';
 import { todoService } from '@/services/todoService';
 
 type TodoStateOnlyAppProps = {
-  initialTodos: Todo[];
+  initialTodos?: Todo[];
 };
 
-export default function TodoStateOnlyApp({ initialTodos }: TodoStateOnlyAppProps) {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+export default function TodoStateOnlyApp({ initialTodos = [] }: TodoStateOnlyAppProps) {
+  const [todos, setTodos] = useState<Todo[]>(initialTodos || []);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 

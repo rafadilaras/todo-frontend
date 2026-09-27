@@ -8,12 +8,12 @@ import { Badge } from '@/app/components/ui/badge';
 import { Input } from '@/app/components/ui/input';
 
 interface ApiTodoListProps {
-  initialTasks: TaskItem[];
+  initialTasks?: TaskItem[];
   totalFromApi?: number;
 }
 
-export default function ApiTodoList({ initialTasks, totalFromApi }: ApiTodoListProps) {
-  const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
+export default function ApiTodoList({ initialTasks = [], totalFromApi }: ApiTodoListProps) {
+  const [tasks, setTasks] = useState<TaskItem[]>(initialTasks || []);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'completed' | 'pending'>('all');
 
@@ -104,7 +104,11 @@ export default function ApiTodoList({ initialTasks, totalFromApi }: ApiTodoListP
       <div className="space-y-3">
         {filteredTasks.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-2xl border border-gray-100 shadow-xl">
-            <p className="text-muted text-sm">Tidak ada tugas yang sesuai dengan pencarian / filter.</p>
+            <p className="text-muted text-sm">
+              {tasks.length === 0
+                ? 'Belum ada tugas.'
+                : 'Tidak ada tugas yang sesuai dengan pencarian / filter.'}
+            </p>
           </div>
         ) : (
           filteredTasks.map((task) => (

@@ -1,4 +1,4 @@
-import { apiClient } from './api';
+import { apiClient, ApiError } from './api';
 import type { BackendResponse, TodoItem } from '@/types/api';
 
 export interface FetchTodosParams {
@@ -25,17 +25,38 @@ export const todoService = {
   /**
    * Mengambil daftar todo milik user (dengan paginasi)
    */
-  async fetchTodos(params: FetchTodosParams = {}): Promise<BackendResponse<TodoItem[]>> {
+  async fetchTodos(params: FetchTodosParams = {}, headers?: HeadersInit): Promise<BackendResponse<TodoItem[]>> {
     const page = params.page ?? (params.skip !== undefined && params.limit ? Math.floor(params.skip / params.limit) + 1 : 1);
     const perPage = params.perPage ?? params.limit ?? 10;
-    return apiClient<TodoItem[]>(`/todos?page=${page}&perPage=${perPage}`);
+    try {
+      const response = await apiClient<TodoItem[]>(`/todos?page=${page}&perPage=${perPage}`, {
+        headers,
+      });
+      return {
+        ...response,
+        data: Array.isArray(response.data) ? response.data : [],
+      };
+    } catch (err) {
+      // Jika backend me-return 404 (anggap task belum ada/kosong), kembalikan array kosong
+      if (err instanceof ApiError && err.status === 404) {
+        return {
+          success: true,
+          data: [],
+          message: 'Belum ada data tugas.',
+          meta: { timestamp: new Date().toISOString() },
+        };
+      }
+      throw err;
+    }
   },
 
   /**
    * Mengambil detail satu todo berdasarkan ID
    */
-  async fetchTodoById(id: number | string): Promise<BackendResponse<TodoItem>> {
-    return apiClient<TodoItem>(`/todos/${id}`);
+  async fetchTodoById(id: number | string, headers?: HeadersInit): Promise<BackendResponse<TodoItem>> {
+    return apiClient<TodoItem>(`/todos/${id}`, {
+      headers,
+    });
   },
 
   /**

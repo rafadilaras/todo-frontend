@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { authService } from '@/services/authService';
 
 export default function UserNavHeader() {
@@ -21,12 +20,6 @@ export default function UserNavHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Link
-          href="/api-todos"
-          className="text-xs font-medium px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition"
-        >
-          API Todos (DummyJSON)
-        </Link>
         <button
           type="button"
           onClick={handleLogout}

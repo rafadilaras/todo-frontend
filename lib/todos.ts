@@ -1,13 +1,28 @@
+import { cookies } from 'next/headers';
 import { todoService } from '@/services/todoService';
 import { Todo } from '@/types/todo';
+
+async function getAuthHeader(): Promise<Record<string, string> | undefined> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+    if (token) {
+      return { Authorization: `Bearer ${token}` };
+    }
+  } catch {
+    // Fallback jika dipanggil di luar server component context
+  }
+  return undefined;
+}
 
 /**
  * Mengambil daftar todo milik user yang sedang login dari Backend Express
  */
 export async function getTodos(): Promise<Todo[]> {
   try {
-    const response = await todoService.fetchTodos({ page: 1, perPage: 50 });
-    const list = response.data || [];
+    const authHeaders = await getAuthHeader();
+    const response = await todoService.fetchTodos({ page: 1, perPage: 50 }, authHeaders);
+    const list = Array.isArray(response.data) ? response.data : [];
     return list.map((item) => ({
       id: item.id,
       title: item.todo,
@@ -22,7 +37,7 @@ export async function getTodos(): Promise<Todo[]> {
         : new Date().toLocaleDateString('id-ID'),
     }));
   } catch (error) {
-    console.error('[lib/todos.ts] Gagal mengambil data todos dari Backend:', error);
+    console.warn('[lib/todos.ts] Info: Daftar tugas kosong atau gagal dimuat dari backend:', error);
     return [];
   }
 }
@@ -32,7 +47,8 @@ export async function getTodos(): Promise<Todo[]> {
  */
 export async function getTodoDetail(id: string | number): Promise<Todo | null> {
   try {
-    const response = await todoService.fetchTodoById(id);
+    const authHeaders = await getAuthHeader();
+    const response = await todoService.fetchTodoById(id, authHeaders);
     if (!response.data) return null;
     const item = response.data;
     return {

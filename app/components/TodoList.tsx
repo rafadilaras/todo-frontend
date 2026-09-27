@@ -10,11 +10,11 @@ type TodoListProps = {
   onDeleteTodo?: (id: number) => void;
 };
 
-export default function TodoList({ todos, onToggleTodo, onDeleteTodo }: TodoListProps) {
-  if (todos.length === 0) {
+export default function TodoList({ todos = [], onToggleTodo, onDeleteTodo }: TodoListProps) {
+  if (!todos || todos.length === 0) {
     return (
-      <div className="text-center p-8 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg">
-        <p className="font-medium">Belum ada tugas.</p>
+      <div className="text-center p-8 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg mt-6">
+        <p className="font-medium text-dark-70">Belum ada tugas.</p>
         <p className="text-sm text-gray-400 mt-1">Tambahkan tugas baru di atas untuk memulai!</p>
       </div>
     );

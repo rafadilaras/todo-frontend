@@ -1,6 +1,20 @@
+import { cookies } from 'next/headers';
 import { todoService, FetchTodosParams } from '@/services/todoService';
 import { TaskItem } from '@/types/api-todo';
 import { TodoItem } from '@/types/api';
+
+async function getAuthHeader(): Promise<Record<string, string> | undefined> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('auth_token')?.value;
+    if (token) {
+      return { Authorization: `Bearer ${token}` };
+    }
+  } catch {
+    // Fallback jika dipanggil di luar server component context
+  }
+  return undefined;
+}
 
 export function formatApiTodoToTask(raw: TodoItem | { id: number; todo: string; completed: boolean; userId?: number }): TaskItem {
   return {
@@ -19,8 +33,9 @@ export async function getTasks(params?: FetchTodosParams): Promise<{
   skip: number;
 }> {
   try {
-    const response = await todoService.fetchTodos(params);
-    const rawList = response.data || [];
+    const authHeaders = await getAuthHeader();
+    const response = await todoService.fetchTodos(params, authHeaders);
+    const rawList = Array.isArray(response.data) ? response.data : [];
     const tasks = rawList.map(formatApiTodoToTask);
     const pagination = response.meta?.pagination;
 
@@ -31,14 +46,20 @@ export async function getTasks(params?: FetchTodosParams): Promise<{
       skip: pagination ? (pagination.page - 1) * pagination.perPage : 0,
     };
   } catch (error) {
-    console.error('[lib/tasks.ts] Error mengambil tasks dari API:', error);
-    throw error;
+    console.warn('[lib/tasks.ts] Info: Daftar task kosong atau gagal diambil dari API:', error);
+    return {
+      tasks: [],
+      total: 0,
+      limit: params?.limit ?? 10,
+      skip: params?.skip ?? 0,
+    };
   }
 }
 
 export async function getTaskById(id: number | string): Promise<TaskItem | null> {
   try {
-    const response = await todoService.fetchTodoById(id);
+    const authHeaders = await getAuthHeader();
+    const response = await todoService.fetchTodoById(id, authHeaders);
     return response.data ? formatApiTodoToTask(response.data) : null;
   } catch (error) {
     console.error(`[lib/tasks.ts] Error mengambil task ID ${id}:`, error);
