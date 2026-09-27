@@ -1,45 +1,55 @@
+import { todoService } from '@/services/todoService';
 import { Todo } from '@/types/todo';
 
-export const todos: Todo[] = [
-  {
-    id: 1,
-    title: 'Belajar React Server Components (RSC)',
-    description: 'Mempelajari konsep dasar Server Components pada Next.js dan perbedaannya dengan Client Components.',
-    completed: true,
-    createdAt: '2026-08-20',
-  },
-  {
-    id: 2,
-    title: 'Memahami Next.js App Router',
-    description: 'Mempelajari struktur routing berbasis folder, dynamic route [id], layout, loading, dan error handling.',
-    completed: true,
-    createdAt: '2026-08-21',
-  },
-  {
-    id: 3,
-    title: 'Membuat Aplikasi Todo List',
-    description: 'Praktik membuat CRUD Todo List sederhana menggunakan Next.js App Router.',
-    completed: false,
-    createdAt: '2026-08-22',
-  },
-  {
-    id: 4,
-    title: 'Eksplorasi Client Components',
-    description: 'Menggunakan directive "use client" untuk interaktivitas seperti form input, onClick handler, dan state.',
-    completed: false,
-    createdAt: '2026-08-22',
-  },
-];
-
-// Fungsi untuk mengambil semua data todos (halaman Home)
+/**
+ * Mengambil daftar todo milik user yang sedang login dari Backend Express
+ */
 export async function getTodos(): Promise<Todo[]> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return todos;
+  try {
+    const response = await todoService.fetchTodos({ page: 1, perPage: 50 });
+    const list = response.data || [];
+    return list.map((item) => ({
+      id: item.id,
+      title: item.todo,
+      description: 'Tugas tersimpan di database MySQL backend.',
+      completed: item.completed,
+      createdAt: response.meta?.timestamp
+        ? new Date(response.meta.timestamp).toLocaleDateString('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        : new Date().toLocaleDateString('id-ID'),
+    }));
+  } catch (error) {
+    console.error('[lib/todos.ts] Gagal mengambil data todos dari Backend:', error);
+    return [];
+  }
 }
 
-// Fungsi untuk mengambil detail 1 todo berdasarkan ID (halaman Detail)
+/**
+ * Mengambil detail 1 todo berdasarkan ID dari Backend Express
+ */
 export async function getTodoDetail(id: string | number): Promise<Todo | null> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const todo = todos.find((item) => item.id === Number(id));
-  return todo || null;
+  try {
+    const response = await todoService.fetchTodoById(id);
+    if (!response.data) return null;
+    const item = response.data;
+    return {
+      id: item.id,
+      title: item.todo,
+      description: 'Tugas terdaftar di database MySQL backend.',
+      completed: item.completed,
+      createdAt: response.meta?.timestamp
+        ? new Date(response.meta.timestamp).toLocaleDateString('id-ID', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        : new Date().toLocaleDateString('id-ID'),
+    };
+  } catch (error) {
+    console.error(`[lib/todos.ts] Gagal mengambil detail todo ID ${id}:`, error);
+    return null;
+  }
 }
