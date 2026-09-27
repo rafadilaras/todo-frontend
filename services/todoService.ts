@@ -1,44 +1,81 @@
 import { apiClient } from './api';
-import { ApiTodo, TodosApiResponse } from '@/types/api-todo';
+import type { BackendResponse, TodoItem } from '@/types/api';
 
 export interface FetchTodosParams {
+  page?: number;
+  perPage?: number;
   limit?: number;
   skip?: number;
 }
 
 export interface CreateTodoInput {
-  todo: string;
-  completed: boolean;
-  userId: number;
+  task?: string;
+  todo?: string;
+  completed?: boolean;
+  userId?: number;
+}
+
+export interface UpdateTodoInput {
+  task?: string;
+  is_completed?: boolean;
+  completed?: boolean;
 }
 
 export const todoService = {
-
-  async fetchTodos(params: FetchTodosParams = { limit: 15, skip: 0 }): Promise<TodosApiResponse> {
-    const { limit = 15, skip = 0 } = params;
-    return apiClient<TodosApiResponse>(`/todos?limit=${limit}&skip=${skip}`);
+  /**
+   * Mengambil daftar todo milik user (dengan paginasi)
+   */
+  async fetchTodos(params: FetchTodosParams = {}): Promise<BackendResponse<TodoItem[]>> {
+    const page = params.page ?? (params.skip !== undefined && params.limit ? Math.floor(params.skip / params.limit) + 1 : 1);
+    const perPage = params.perPage ?? params.limit ?? 10;
+    return apiClient<TodoItem[]>(`/todos?page=${page}&perPage=${perPage}`);
   },
 
-  async fetchTodoById(id: number | string): Promise<ApiTodo> {
-    return apiClient<ApiTodo>(`/todos/${id}`);
+  /**
+   * Mengambil detail satu todo berdasarkan ID
+   */
+  async fetchTodoById(id: number | string): Promise<BackendResponse<TodoItem>> {
+    return apiClient<TodoItem>(`/todos/${id}`);
   },
 
-  async createTodo(payload: CreateTodoInput): Promise<ApiTodo> {
-    return apiClient<ApiTodo>('/todos/add', {
+  /**
+   * Membuat todo baru di backend
+   */
+  async createTodo(payload: CreateTodoInput): Promise<BackendResponse<TodoItem>> {
+    const task = payload.task || payload.todo || '';
+    return apiClient<TodoItem>('/todos', {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ task }),
     });
   },
 
-  async updateTodoStatus(id: number | string, completed: boolean): Promise<ApiTodo> {
-    return apiClient<ApiTodo>(`/todos/${id}`, {
+  /**
+   * Mengubah task atau status selesai todo
+   */
+  async updateTodo(id: number | string, payload: UpdateTodoInput): Promise<BackendResponse<unknown>> {
+    const body: Record<string, unknown> = {};
+    if (payload.task !== undefined) body.task = payload.task;
+    if (payload.is_completed !== undefined) body.is_completed = payload.is_completed;
+    else if (payload.completed !== undefined) body.is_completed = payload.completed;
+
+    return apiClient(`/todos/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ completed }),
+      body: JSON.stringify(body),
     });
   },
 
-  async deleteTodo(id: number | string): Promise<{ id: number; isDeleted: boolean; deletedOn: string }> {
-    return apiClient<{ id: number; isDeleted: boolean; deletedOn: string }>(`/todos/${id}`, {
+  /**
+   * Helper toggle status selesai (backward compatibility)
+   */
+  async updateTodoStatus(id: number | string, completed: boolean): Promise<BackendResponse<unknown>> {
+    return this.updateTodo(id, { is_completed: completed });
+  },
+
+  /**
+   * Menghapus todo berdasarkan ID
+   */
+  async deleteTodo(id: number | string): Promise<BackendResponse<unknown>> {
+    return apiClient(`/todos/${id}`, {
       method: 'DELETE',
     });
   },

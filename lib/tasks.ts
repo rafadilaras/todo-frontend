@@ -1,12 +1,13 @@
 import { todoService, FetchTodosParams } from '@/services/todoService';
-import { ApiTodo, TaskItem } from '@/types/api-todo';
+import { TaskItem } from '@/types/api-todo';
+import { TodoItem } from '@/types/api';
 
-export function formatApiTodoToTask(raw: ApiTodo): TaskItem {
+export function formatApiTodoToTask(raw: TodoItem | { id: number; todo: string; completed: boolean; userId?: number }): TaskItem {
   return {
     id: raw.id,
     title: raw.todo, // Mapping properti 'todo' -> 'title'
     completed: raw.completed,
-    userId: raw.userId,
+    userId: ('userId' in raw && typeof raw.userId === 'number') ? raw.userId : 1,
     source: 'dummyjson-api',
   };
 }
@@ -19,13 +20,15 @@ export async function getTasks(params?: FetchTodosParams): Promise<{
 }> {
   try {
     const response = await todoService.fetchTodos(params);
-    const tasks = response.todos.map(formatApiTodoToTask);
+    const rawList = response.data || [];
+    const tasks = rawList.map(formatApiTodoToTask);
+    const pagination = response.meta?.pagination;
 
     return {
       tasks,
-      total: response.total,
-      limit: response.limit,
-      skip: response.skip,
+      total: pagination?.total ?? tasks.length,
+      limit: pagination?.perPage ?? 10,
+      skip: pagination ? (pagination.page - 1) * pagination.perPage : 0,
     };
   } catch (error) {
     console.error('[lib/tasks.ts] Error mengambil tasks dari API:', error);
@@ -35,8 +38,8 @@ export async function getTasks(params?: FetchTodosParams): Promise<{
 
 export async function getTaskById(id: number | string): Promise<TaskItem | null> {
   try {
-    const raw = await todoService.fetchTodoById(id);
-    return formatApiTodoToTask(raw);
+    const response = await todoService.fetchTodoById(id);
+    return response.data ? formatApiTodoToTask(response.data) : null;
   } catch (error) {
     console.error(`[lib/tasks.ts] Error mengambil task ID ${id}:`, error);
     return null;
