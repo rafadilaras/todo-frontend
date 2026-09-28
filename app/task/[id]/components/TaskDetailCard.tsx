@@ -42,15 +42,6 @@ export default function TaskDetailCard({ todo }: TaskDetailCardProps) {
 
           <div>
             <label className="text-xs font-semibold text-muted uppercase tracking-wider">
-              Deskripsi
-            </label>
-            <p className="text-dark-70 bg-gray-10 p-4 rounded-xl border border-gray-100 mt-1 text-sm leading-relaxed">
-              {todo.description}
-            </p>
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold text-muted uppercase tracking-wider">
               Status
             </label>
             <div className="mt-1">
