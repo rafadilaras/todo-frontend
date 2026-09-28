@@ -3,6 +3,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { authService } from '@/services/authService';
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { authService } from '@/services/authService';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -74,9 +79,17 @@ export default function RegisterForm() {
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
           Username:
+        <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+          Username:
         </label>
         <input
           type="text"
+          id="username"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Masukkan username"
+          required
           id="username"
           name="username"
           value={username}
@@ -97,7 +110,10 @@ export default function RegisterForm() {
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="Masukkan email"
+          required
           required
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-800"
         />
@@ -113,7 +129,10 @@ export default function RegisterForm() {
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Masukkan password"
+          required
           required
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-800"
         />
@@ -129,7 +148,10 @@ export default function RegisterForm() {
           name="confirmPassword"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Ulangi password"
+          required
           required
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-800"
         />
@@ -143,7 +165,10 @@ export default function RegisterForm() {
         >
           {loading ? 'Mendaftarkan...' : 'Register'}
         </button>
+          {loading ? 'Mendaftarkan...' : 'Register'}
+        </button>
       </div>
+    </form>
     </form>
   );
 }
