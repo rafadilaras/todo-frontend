@@ -15,7 +15,8 @@ export default function TaskDetailCard({ todo }: TaskDetailCardProps) {
           <h1 className="text-2xl font-bold text-dark-130">Detail Tugas</h1>
           <Link
             href="/"
-            className="text-xs font-semibold bg-gray-20 hover:bg-gray-30 text-dark-70 border border-gray-200 px-3.5 py-2 rounded-lg transition shadow-xs"
+            className="text-xs font-semibold bg-gray-20 hover:bg-gray-30 text-dark-70 border 
+            border-gray-200 px-3.5 py-2 rounded-lg transition shadow-xs"
           >
             ← Kembali ke Daftar
           </Link>

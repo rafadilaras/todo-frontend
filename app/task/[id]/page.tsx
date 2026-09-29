@@ -50,7 +50,8 @@ export default function TodoDetailPage() {
   if (loading) {
     return (
       <main className="min-h-screen p-6 md:p-10 bg-white text-dark-70">
-        <div className="max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 text-center">
+        <div className="max-w-2xl mx-auto bg-white p-6 md:p-8 rounded-2xl 
+        shadow-xl border border-gray-100 text-center">
           <p className="text-gray-400 text-sm">Memuat detail tugas...</p>
         </div>
       </main>

@@ -11,14 +11,10 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * HTTP Client Interceptor (Middleware FE)
- * Mengelola Request Header (JWT, Content-Type), Response Tracing (X-Request-Id), dan Error Interception (401 Redirect).
- */
-export async function apiClient<T = unknown>(
+export async function apiClient<T>(
   endpoint: string,
   options: RequestInit = {}
-): Promise<BackendResponse<T>> {
+): Promise<T> {
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;

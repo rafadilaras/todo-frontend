@@ -20,8 +20,6 @@ export interface SingleTodoResponse {
 }
 
 export interface FetchTodosParams {
-  page?: number;
-  perPage?: number;
   limit?: number;
   skip?: number;
 }
@@ -48,7 +46,6 @@ export const todoService = {
     const task = typeof payload === 'string' ? payload : payload.todo;
     const res = await apiClient<SingleTodoResponse>('/todos', {
       method: 'POST',
-      body: JSON.stringify({ task }),
       body: JSON.stringify({ task }),
     });
     return res.data;

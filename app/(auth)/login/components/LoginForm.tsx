@@ -42,16 +42,7 @@ export default function LoginForm() {
         </div>
       )}
 
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {error && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-md">
-          {error}
-        </div>
-      )}
-
       <div>
-        <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-          Username:
         <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
           Username:
         </label>
@@ -63,13 +54,8 @@ export default function LoginForm() {
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Masukkan username"
           required
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Masukkan username"
-          required
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-800"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 
+          focus:ring-blue-500 bg-white text-gray-800"
         />
       </div>
 
@@ -83,12 +69,10 @@ export default function LoginForm() {
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
           placeholder="Masukkan password"
           required
-          required
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-800"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 
+          focus:ring-blue-500 bg-white text-gray-800"
         />
       </div>
 
@@ -96,12 +80,12 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-medium rounded-md transition-colors cursor-pointer disabled:cursor-not-allowed"
+          className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white 
+          font-medium rounded-md transition-colors cursor-pointer disabled:cursor-not-allowed"
         >
           {loading ? 'Sedang Masuk...' : 'Login'}
         </button>
       </div>
-    </form>
     </form>
   );
 }

@@ -15,7 +15,7 @@ export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 1. Cek autentikasi & ambil data dari database saat pertama kali dibuka
+  // Auth Guard & Pemuatan Data Awal saat halaman dibuka
   useEffect(() => {
     const token = authService.getToken();
     if (!token) {
@@ -23,29 +23,29 @@ export default function TodoApp() {
       return;
     }
 
+    const loadTodos = async () => {
+      try {
+        setLoading(true);
+        const data = await todoService.getTodos();
+        const formatted: Todo[] = data.map((item) => ({
+          id: item.id,
+          title: item.todo,
+          completed: Boolean(item.completed),
+          createdAt: new Date().toISOString().split('T')[0],
+        }));
+        setTodos(formatted);
+      } catch (err) {
+        if (err instanceof ApiError && (err.status === 401 || err.status === 403)) {
+          authService.logout();
+          router.replace('/login');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadTodos();
   }, [router]);
-
-  const loadTodos = async () => {
-    try {
-      setLoading(true);
-      const data = await todoService.getTodos();
-      const formatted: Todo[] = data.map((item) => ({
-        id: item.id,
-        title: item.todo,
-        completed: Boolean(item.completed),
-        createdAt: new Date().toISOString().split('T')[0],
-      }));
-      setTodos(formatted);
-    } catch (err) {
-      if (err instanceof ApiError && (err.status === 401 || err.status === 403)) {
-        authService.logout();
-        router.replace('/login');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Handler Tambah Tugas Baru (Create -> POST /api/todos)
   const handleAddTodo = async (title: string) => {
